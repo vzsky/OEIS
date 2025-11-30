@@ -2,10 +2,10 @@
 #include <map>
 #include <vector>
 
-template <int N> class PrimeFactorizer
+template <int N> class Prime
 {
 public:
-  PrimeFactorizer() : mLowestPrime(N)
+  Prime() : mLowestPrime(N)
   {
     sieve();
   }
@@ -16,12 +16,13 @@ private:
 public:
   std::vector<int> factors(int n) const;
   std::map<int, int> factors_freq(int n) const;
+  std::vector<int> all_primes() const;
 
 private:
   std::vector<int> mLowestPrime{N};
 };
 
-template <int N> void PrimeFactorizer<N>::sieve()
+template <int N> void Prime<N>::sieve()
 {
   for (int i = 0; i <= N; ++i)
     mLowestPrime[i] = i;
@@ -38,7 +39,18 @@ template <int N> void PrimeFactorizer<N>::sieve()
   }
 }
 
-template <int N> std::vector<int> PrimeFactorizer<N>::factors(int n) const
+template <int N> std::vector<int> Prime<N>::all_primes() const
+{
+  std::vector<int> primes;
+  for (int i = 2; i <= N; i++)
+  {
+    if (mLowestPrime[i] == i)
+      primes.push_back(i);
+  }
+  return primes;
+}
+
+template <int N> std::vector<int> Prime<N>::factors(int n) const
 {
   assert(2 <= n && n <= N);
   std::vector<int> f;
@@ -50,7 +62,7 @@ template <int N> std::vector<int> PrimeFactorizer<N>::factors(int n) const
   return f;
 }
 
-template <int N> std::map<int, int> PrimeFactorizer<N>::factors_freq(int n) const
+template <int N> std::map<int, int> Prime<N>::factors_freq(int n) const
 {
   std::map<int, int> freq;
   for (int p : factors(n))

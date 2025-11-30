@@ -15,6 +15,11 @@ fi
 
 TARGET="$1"
 
+if [ "$TARGET" = "all" ]; then
+  ninja -C "$BUILD_DIR"
+  exit 0;
+fi
+
 if [ "$TARGET" = "test" ]; then
   if [ -z "$2" ]; then
     ninja -C "$BUILD_DIR" testall
@@ -26,5 +31,11 @@ fi
 
 ninja -C "$BUILD_DIR" "$TARGET" && echo "Compilation success"
 
-"$BUILD_DIR/bin/"$TARGET"
-
+# Run executable if it exists
+EXEC="$BUILD_DIR/bin/$TARGET"
+if [ -x "$EXEC" ]; then
+  "$EXEC"
+else
+  echo "Executable not found: $EXEC"
+  exit 1
+fi

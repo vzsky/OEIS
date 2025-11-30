@@ -1,21 +1,22 @@
 set(UTILS_LIBS
-    utils    Utils.cpp
     treap    Treap.cpp
-    integer  Integer.cpp
-    prime    PrimeFactorizer.cpp
+    bigint  BigInt.cpp
+    modint  ModInt.cpp
+    prime    Prime.cpp
     math     MoreMath.cpp
-)
-
-set(TEST_TARGETS
-    treap tests/testTreap.cpp
-    math  tests/testMath.cpp
-    prime tests/testPrime.cpp
-    integer tests/testInteger.cpp
 )
 
 # -------------------------------------------
 # Libraries
 # -------------------------------------------
+
+add_library(utils STATIC Utils.cpp)
+
+target_include_directories(utils PUBLIC
+      ${CMAKE_CURRENT_SOURCE_DIR}
+      ${CMAKE_SOURCE_DIR}
+      ${PROJECT_SOURCE_DIR}
+)
 
 list(LENGTH UTILS_LIBS _utils_len)
 math(EXPR _utils_len "${_utils_len} - 1")
@@ -36,26 +37,22 @@ foreach(i RANGE 0 ${_utils_len} 2)
   )
 endforeach()
 
-
 # -------------------------------------------
 # GoogleTest
 # -------------------------------------------
 
 enable_testing()
 
-list(LENGTH TEST_TARGETS _test_len)
-math(EXPR _test_len "${_test_len} - 1")
-
-foreach(i RANGE 0 ${_test_len} 2)
+foreach(i RANGE 0 ${_utils_len} 2)
 
   math(EXPR j "${i} + 1")
 
-  list(GET TEST_TARGETS ${i} libname)
-  list(GET TEST_TARGETS ${j} testfile)
+  list(GET UTILS_LIBS ${i} libname)
+  list(GET UTILS_LIBS ${j} testfile)
 
   set(testname ${libname}_tests)
 
-  add_executable(${testname} ${testfile})
+  add_executable(${testname} tests/test${testfile})
   target_link_libraries(${testname}
         PRIVATE ${libname} gtest_main
   )

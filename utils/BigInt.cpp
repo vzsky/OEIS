@@ -1,17 +1,15 @@
-#include "Integer.h"
-#include <algorithm>
+#include "BigInt.h"
 #include <cctype>
-#include <compare>
 
 /**************************************
  * CONSTRUCTIONS
  *************************************/
 
-Integer::Integer() : mIsNegative(false), mDigits{0}
+BigInt::BigInt() : mIsNegative(false), mDigits{0}
 {
 }
 
-Integer::Integer(int x)
+BigInt::BigInt(int x)
 {
   mIsNegative = x < 0;
   if (mIsNegative)
@@ -29,7 +27,7 @@ Integer::Integer(int x)
   }
 }
 
-Integer::Integer(const std::string& s)
+BigInt::BigInt(const std::string& s)
 {
   mDigits.clear();
   mIsNegative = s[0] == '-';
@@ -51,7 +49,7 @@ Integer::Integer(const std::string& s)
  * OPERATIONS
  *************************************/
 
-void Integer::remove_leading_zeros()
+void BigInt::remove_leading_zeros()
 {
   while (mDigits.size() > 1 && mDigits.back() == 0)
     mDigits.pop_back();
@@ -60,7 +58,7 @@ void Integer::remove_leading_zeros()
     mIsNegative = false;
 }
 
-void Integer::abs_add(const Integer& src)
+void BigInt::abs_add(const BigInt& src)
 {
   int carry = 0;
   size_t n = std::max(mDigits.size(), src.mDigits.size());
@@ -77,7 +75,7 @@ void Integer::abs_add(const Integer& src)
     mDigits.push_back(carry);
 }
 
-void Integer::abs_sub(const Integer& src)
+void BigInt::abs_sub(const BigInt& src)
 {
   int borrow = 0;
   for (size_t i = 0; i < mDigits.size(); ++i)
@@ -97,22 +95,22 @@ void Integer::abs_sub(const Integer& src)
   remove_leading_zeros();
 }
 
-Integer Integer::abs() const
+BigInt BigInt::abs() const
 {
-  Integer result = *this;
+  BigInt result = *this;
   result.mIsNegative = false;
   return result;
 }
 
-Integer Integer::operator-() const
+BigInt BigInt::operator-() const
 {
-  Integer result = *this;
-  if (result != Integer(0))
+  BigInt result = *this;
+  if (result != BigInt(0))
     result.mIsNegative = !result.mIsNegative;
   return result;
 }
 
-std::ostream& operator<<(std::ostream& os, const Integer& x)
+std::ostream& operator<<(std::ostream& os, const BigInt& x)
 {
   if (x.mDigits.empty())
     return os << 0;
@@ -125,7 +123,7 @@ std::ostream& operator<<(std::ostream& os, const Integer& x)
   return os;
 }
 
-const Integer& Integer::operator+=(const Integer& other)
+const BigInt& BigInt::operator+=(const BigInt& other)
 {
   if (mIsNegative == other.mIsNegative)
   {
@@ -135,7 +133,7 @@ const Integer& Integer::operator+=(const Integer& other)
   {
     if (abs() < other.abs())
     {
-      Integer tmp = other;
+      BigInt tmp = other;
       tmp.abs_sub(*this);
       tmp.mIsNegative = other.mIsNegative;
       *this = tmp;
@@ -149,17 +147,17 @@ const Integer& Integer::operator+=(const Integer& other)
   return *this;
 }
 
-const Integer& Integer::operator-=(const Integer& other)
+const BigInt& BigInt::operator-=(const BigInt& other)
 {
   *this += (-other);
   return *this;
 }
 
-const Integer& Integer::operator*=(const Integer& other)
+const BigInt& BigInt::operator*=(const BigInt& other)
 {
-  if (*this == Integer(0) || other == Integer(0))
+  if (*this == BigInt(0) || other == BigInt(0))
   {
-    *this = Integer(0);
+    *this = BigInt(0);
     return *this;
   }
 
@@ -183,7 +181,7 @@ const Integer& Integer::operator*=(const Integer& other)
   return *this;
 }
 
-std::strong_ordering Integer::operator<=>(const Integer& other) const
+std::strong_ordering BigInt::operator<=>(const BigInt& other) const
 {
   if (mIsNegative != other.mIsNegative)
     return mIsNegative ? std::strong_ordering::less : std::strong_ordering::greater;

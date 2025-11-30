@@ -1,11 +1,11 @@
-#include <utils/Integer.h>
-#include <utils/PrimeFactorizer.h>
+#include <utils/BigInt.h>
+#include <utils/Prime.h>
 #include <utils/Utils.h>
 
 template <int N> class A123132
 {
 public:
-  Integer describe_prime_factors(int x)
+  BigInt describe_prime_factors(int x)
   {
     std::map freq = factorizer.factors_freq(x);
     std::string out;
@@ -24,13 +24,13 @@ public:
     return static_cast<int>(std::log10(std::abs(x))) + 1;
   }
 
-  const PrimeFactorizer<N>& getFactorizer() const
+  const Prime<N>& getFactorizer() const
   {
     return factorizer;
   }
 
 private:
-  PrimeFactorizer<N> factorizer;
+  Prime<N> factorizer;
 };
 
 int main()

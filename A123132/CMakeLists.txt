@@ -3,5 +3,5 @@ add_executable(A123132
 )
 
 target_link_libraries(A123132
-  PRIVATE integer prime
+  PRIVATE bigint prime
 )

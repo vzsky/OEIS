@@ -1,9 +1,9 @@
-#include "../PrimeFactorizer.h"
+#include "../Prime.h"
 #include <gtest/gtest.h>
 
-TEST(PrimeFactorizerTest, SmallNumbers)
+TEST(PrimeTest, SmallNumbers)
 {
-  PrimeFactorizer<20> pf;
+  Prime<20> pf;
 
   auto factors7 = pf.factors(7);
   ASSERT_EQ(factors7.size(), 1);
@@ -32,9 +32,9 @@ TEST(PrimeFactorizerTest, SmallNumbers)
   EXPECT_EQ(freq18[3], 2);
 }
 
-TEST(PrimeFactorizerTest, EdgeCases)
+TEST(PrimeTest, EdgeCases)
 {
-  PrimeFactorizer<10> pf;
+  Prime<10> pf;
 
   auto factors2 = pf.factors(2);
   ASSERT_EQ(factors2.size(), 1);
@@ -52,7 +52,7 @@ TEST(PrimeFactorizerTest, EdgeCases)
 
 TEST(PrimeFactorizerTest, ThrowsOnInvalid)
 {
-  PrimeFactorizer<10> pf;
+  Prime<10> pf;
 
   ASSERT_DEATH(pf.factors(1), ".*");
   ASSERT_DEATH(pf.factors(11), ".*");

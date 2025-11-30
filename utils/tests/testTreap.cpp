@@ -2,7 +2,7 @@
 #include <gtest/gtest.h>
 #include <vector>
 
-TEST(TestTreap, BasicInsertAndAccess)
+TEST(TreapTest, BasicInsertAndAccess)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
   t.insert(5);
@@ -15,7 +15,7 @@ TEST(TestTreap, BasicInsertAndAccess)
   ASSERT_EQ(t[2], 7);
 }
 
-TEST(TestTreap, Duplicates)
+TEST(TreapTest, Duplicates)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
   t.insert(1);
@@ -28,7 +28,7 @@ TEST(TestTreap, Duplicates)
   ASSERT_EQ(t[2], 1);
 }
 
-TEST(TestTreap, RestrictKeepsSmallest)
+TEST(TreapTest, RestrictKeepsSmallest)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
   for (int i = 1; i <= 10; ++i)
@@ -42,7 +42,7 @@ TEST(TestTreap, RestrictKeepsSmallest)
     ASSERT_EQ(t[i], expected[i]);
 }
 
-TEST(TestTreap, ContainsWorks)
+TEST(TreapTest, ContainsWorks)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
   t.insert(10);
@@ -55,7 +55,7 @@ TEST(TestTreap, ContainsWorks)
   ASSERT_FALSE(t.contains(5));
 }
 
-TEST(TestTreap, GatherIterateAndMap)
+TEST(TreapTest, GatherIterateAndMap)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
 
@@ -81,7 +81,7 @@ TEST(TestTreap, GatherIterateAndMap)
   ASSERT_EQ(double_gather, expected);
 }
 
-TEST(TestTreap, MergeTwoTreaps)
+TEST(TreapTest, MergeTwoTreaps)
 {
   Treap<int, std::less<int>> t1(std::less<int>{});
   Treap<int, std::less<int>> t2(std::less<int>{});
@@ -103,7 +103,7 @@ TEST(TestTreap, MergeTwoTreaps)
     ASSERT_EQ(t1[i], expected[i]);
 }
 
-TEST(TestTreap, LargeInsertPerformance)
+TEST(TreapTest, LargeInsertPerformance)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
   const int N = 10000;
@@ -116,7 +116,7 @@ TEST(TestTreap, LargeInsertPerformance)
   ASSERT_EQ(t[N - 1], N - 1);
 }
 
-TEST(TestTreap, EdgeCasesEmptyTreap)
+TEST(TreapTest, EdgeCasesEmptyTreap)
 {
   Treap<int, std::less<int>> t(std::less<int>{});
 

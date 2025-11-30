@@ -1,6 +1,6 @@
-#include <utils/Integer.h>
+#include <utils/BigInt.h>
 #include <utils/MoreMath.h>
-#include <utils/PrimeFactorizer.h>
+#include <utils/Prime.h>
 #include <utils/Utils.h>
 
 template <int N> class A002326
@@ -109,12 +109,11 @@ public:
   }
 
 private:
-  PrimeFactorizer<2 * N + 1> factorizer;
+  Prime<2 * N + 1> factorizer;
 };
 
 int main()
 {
-
   timeit(
       []()
       {
